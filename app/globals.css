@@ -42,6 +42,8 @@
   --color-dial-track: #f1ece5;
   --color-dial-accent-top: #f18a6e;
   --color-dial-accent-bottom: #c94427;
+  --color-dial-text: #ffffff;
+  --color-dial-text-muted: rgba(255, 255, 255, 0.65);
 
   /* ─── Radii ───────────────────────────────────────────────── */
   --radius-shell: 32px;
