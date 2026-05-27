@@ -13,32 +13,36 @@ export function PersonaPill() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex items-center gap-3 h-11 pl-1.5 pr-4 rounded-full border transition-colors duration-200"
+        className="inline-flex items-center gap-2 sm:gap-3 h-11 pl-1.5 pr-3 sm:pr-4 rounded-full border"
         style={{
           backgroundColor: "var(--color-surface)",
           borderColor: "var(--color-border)",
         }}
       >
         <span
-          className="w-8 h-8 rounded-full flex items-center justify-center text-white text-[12px] font-medium"
+          className="w-8 h-8 rounded-full flex items-center justify-center text-white text-[12px] font-medium shrink-0"
           style={{ backgroundColor: persona.orgAccentHex }}
         >
           {persona.initials}
         </span>
-        <span className="flex flex-col leading-tight items-start">
+        {/* Name + title hidden on small screens — avatar+chevron only */}
+        <span className="hidden md:flex flex-col leading-tight items-start min-w-0">
           <span
-            className="font-medium"
+            className="font-medium truncate"
             style={{
               color: "var(--color-text)",
               fontSize: "var(--text-body)",
+              maxWidth: "120px",
             }}
           >
             {persona.name}
           </span>
           <span
+            className="truncate"
             style={{
               color: "var(--color-text-muted)",
               fontSize: "var(--text-meta)",
+              maxWidth: "120px",
             }}
           >
             {persona.title}
@@ -47,6 +51,7 @@ export function PersonaPill() {
         <ChevronDown
           size={14}
           style={{ color: "var(--color-text-muted)" }}
+          className="shrink-0"
         />
       </button>
       {open && (
@@ -65,16 +70,24 @@ export function PersonaPill() {
                 fontSize: "var(--text-body)",
               }}
             >
-              {persona.orgName}
+              {persona.name}
             </p>
             <p
-              className="capitalize"
               style={{
                 color: "var(--color-text-muted)",
                 fontSize: "var(--text-meta)",
               }}
             >
-              {persona.role}
+              {persona.title}
+            </p>
+            <p
+              className="capitalize mt-1.5"
+              style={{
+                color: "var(--color-text-muted)",
+                fontSize: "var(--text-meta)",
+              }}
+            >
+              {persona.orgName} · {persona.role}
             </p>
           </div>
           <div
@@ -84,7 +97,7 @@ export function PersonaPill() {
           <button
             type="button"
             onClick={signOut}
-            className="flex items-center gap-2 w-full px-3 py-2 rounded-xl text-left transition-colors duration-150"
+            className="flex items-center gap-2 w-full px-3 py-2 rounded-xl text-left"
             style={{
               color: "var(--color-text-2)",
               fontSize: "var(--text-body)",

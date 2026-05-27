@@ -35,8 +35,8 @@ export function AiPromptHero({
   };
 
   return (
-    <div className="flex items-center justify-end gap-6 flex-1">
-      <div className="text-right">
+    <div className="flex items-center justify-end gap-4 sm:gap-6 flex-1 min-w-0">
+      <div className="text-right min-w-0 flex-1">
         <div className="flex items-center justify-end gap-2 mb-1">
           <span
             className="inline-flex items-center gap-1.5 h-6 px-2.5 rounded-full"
@@ -55,7 +55,7 @@ export function AiPromptHero({
           className="font-medium tracking-tight"
           style={{
             color: "var(--color-text)",
-            fontSize: "var(--text-display)",
+            fontSize: "clamp(1.5rem, 4vw, 2.5rem)",
             lineHeight: "var(--text-display--line-height)",
           }}
         >
@@ -68,7 +68,7 @@ export function AiPromptHero({
           className="font-medium tracking-tight cursor-blink"
           style={{
             color: "var(--color-text-subtle)",
-            fontSize: "var(--text-display)",
+            fontSize: "clamp(1.5rem, 4vw, 2.5rem)",
             lineHeight: "var(--text-display--line-height)",
           }}
         >
@@ -80,7 +80,7 @@ export function AiPromptHero({
         aria-label="Talk to DealPipe AI"
         title="Talk to DealPipe AI"
         onClick={onMicClick}
-        className="relative w-24 h-24 rounded-full flex items-center justify-center border shrink-0"
+        className="relative w-16 h-16 sm:w-24 sm:h-24 rounded-full flex items-center justify-center border shrink-0"
         style={{
           backgroundColor: listening
             ? "var(--color-accent)"
@@ -96,7 +96,8 @@ export function AiPromptHero({
             : "dp-mic-pulse 3s ease-in-out infinite",
         }}
       >
-        <Mic size={28} />
+        <Mic size={24} className="sm:hidden" />
+        <Mic size={28} className="hidden sm:block" />
       </button>
     </div>
   );

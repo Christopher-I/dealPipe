@@ -26,15 +26,15 @@ export function WorkspacesList() {
 
   return (
     <div
-      className="rounded-[var(--radius-sub-card)] border p-5 flex flex-col gap-4"
+      className="rounded-[var(--radius-sub-card)] border p-5 flex flex-col gap-4 min-w-0"
       style={{
         backgroundColor: "var(--color-surface)",
         borderColor: "var(--color-border)",
       }}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2 min-w-0">
         <p
-          className="font-medium"
+          className="font-medium truncate"
           style={{
             color: "var(--color-text)",
             fontSize: "var(--text-label)",
@@ -46,13 +46,14 @@ export function WorkspacesList() {
           type="button"
           aria-label="More"
           onClick={() => toast("Demo: opens workspace settings")}
+          className="shrink-0"
           style={{ color: "var(--color-text-muted)" }}
         >
           <MoreVertical size={16} />
         </button>
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 min-w-0">
         {ITEMS.map((it) => {
           const Icon = it.icon;
           const active = selected === it.label;
@@ -64,7 +65,7 @@ export function WorkspacesList() {
                 setSelected(it.label);
                 toast(it.label);
               }}
-              className="flex items-center gap-3 rounded-full px-3 py-2 text-left"
+              className="flex items-center gap-3 rounded-full px-3 py-2 text-left min-w-0 w-full"
               style={{
                 backgroundColor: active
                   ? "var(--color-surface-warm)"
@@ -83,6 +84,7 @@ export function WorkspacesList() {
                 <Icon size={14} />
               </span>
               <span
+                className="truncate min-w-0"
                 style={{
                   color: "var(--color-text-2)",
                   fontSize: "var(--text-body)",

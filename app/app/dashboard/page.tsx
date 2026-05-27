@@ -77,17 +77,13 @@ export default function DashboardPage() {
       </div>
 
       <div className="flex gap-4">
-        <VerticalActionRail />
+        <div className="hidden lg:block">
+          <VerticalActionRail />
+        </div>
 
         <div className="flex-1 flex flex-col gap-4 min-w-0">
-          {/* ── Row 1: VISA | Income/Paid stack | Right cluster ── */}
-          <div
-            className="grid gap-4"
-            style={{
-              gridTemplateColumns:
-                "minmax(0, 3fr) minmax(0, 3fr) minmax(0, 6fr)",
-            }}
-          >
+          {/* ── Row 1 ── */}
+          <div className="grid gap-4 grid-cols-1 xl:grid-cols-[minmax(0,3fr)_minmax(0,3fr)_minmax(0,6fr)]">
             <AccountCard />
 
             <div className="flex flex-col gap-4">
@@ -106,47 +102,38 @@ export default function DashboardPage() {
               />
             </div>
 
-            <div
-              className="grid gap-3"
-              style={{
-                gridTemplateColumns:
-                  "minmax(0, 1fr) minmax(0, 2fr) minmax(0, 2fr)",
-                gridTemplateRows: "minmax(0, 1fr) minmax(0, 1fr)",
-              }}
-            >
+            {/* Right cluster — collapses to single column below xl */}
+            <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_minmax(0,2fr)] xl:grid-rows-[minmax(0,1fr)_minmax(0,1fr)]">
               <SystemLockCard />
               <DaysCountdownCard
                 days={daysToClose}
                 totalDays={30}
                 subtitle="To next close"
               />
-              <YearChartCard />
-              <div
-                className="flex items-center justify-center"
-                style={{ gridColumn: "span 2" }}
-              >
+              <div className="sm:col-span-2 xl:col-span-1">
+                <YearChartCard />
+              </div>
+              <div className="flex items-center justify-center sm:col-span-2 xl:col-span-2">
                 <GrowthRateDial percent={growthPercent} />
               </div>
-              <MainStocksCard
-                value={stocks}
-                title="Portfolio NAV"
-                subtitle="Open + closed deals"
-                deltaPercent={stocksDelta}
-              />
+              <div className="sm:col-span-2 xl:col-span-1">
+                <MainStocksCard
+                  value={stocks}
+                  title="Portfolio NAV"
+                  subtitle="Open + closed deals"
+                  deltaPercent={stocksDelta}
+                />
+              </div>
             </div>
           </div>
 
-          {/* ── Row 2: Annual Profits | Activity Manager | Review Rating ── */}
-          <div
-            className="grid gap-4"
-            style={{
-              gridTemplateColumns:
-                "minmax(0, 4fr) minmax(0, 5fr) minmax(0, 3fr)",
-            }}
-          >
+          {/* ── Row 2 ── */}
+          <div className="grid gap-4 grid-cols-1 lg:grid-cols-2 xl:grid-cols-[minmax(0,4fr)_minmax(0,5fr)_minmax(0,3fr)]">
             <AnnualProfitsCard />
             <ActivityManagerCard amount={barChartTop} />
-            <ReviewRatingCard />
+            <div className="lg:col-span-2 xl:col-span-1">
+              <ReviewRatingCard />
+            </div>
           </div>
         </div>
       </div>

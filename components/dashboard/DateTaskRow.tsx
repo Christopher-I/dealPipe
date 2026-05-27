@@ -10,11 +10,11 @@ export function DateTaskRow({ date }: { date: Date }) {
   const month = date.toLocaleDateString("en-US", { month: "long" });
 
   return (
-    <div className="flex items-center gap-5">
+    <div className="flex items-center gap-3 sm:gap-5 flex-wrap">
       <button
         type="button"
         onClick={() => toast(`${weekday}, ${month} ${dayNum}`)}
-        className="w-[72px] h-[72px] rounded-full flex items-center justify-center border"
+        className="w-[64px] h-[64px] sm:w-[72px] sm:h-[72px] rounded-full flex items-center justify-center border shrink-0"
         style={{
           backgroundColor: "var(--color-surface)",
           borderColor: "var(--color-border-strong)",
@@ -30,7 +30,7 @@ export function DateTaskRow({ date }: { date: Date }) {
           {dayNum}
         </span>
       </button>
-      <div className="flex flex-col leading-tight">
+      <div className="flex flex-col leading-tight shrink-0">
         <span
           className="font-medium"
           style={{
@@ -55,7 +55,7 @@ export function DateTaskRow({ date }: { date: Date }) {
         type="button"
         aria-label="Calendar"
         onClick={() => toast("Demo: opens calendar")}
-        className="relative w-12 h-12 rounded-full flex items-center justify-center border"
+        className="relative w-12 h-12 rounded-full flex items-center justify-center border shrink-0"
         style={{
           backgroundColor: "var(--color-surface)",
           borderColor: "var(--color-border)",

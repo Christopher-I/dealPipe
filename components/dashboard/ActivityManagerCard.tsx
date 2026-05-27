@@ -22,13 +22,13 @@ export function ActivityManagerCard({ amount }: { amount: string }) {
 
   return (
     <div
-      className="rounded-[var(--radius-card-lg)] border p-6 flex flex-col gap-5"
+      className="rounded-[var(--radius-card-lg)] border p-6 flex flex-col gap-5 min-w-0"
       style={{
         backgroundColor: "var(--color-surface)",
         borderColor: "var(--color-border)",
       }}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-3 flex-wrap">
         <p
           className="font-medium"
           style={{
@@ -75,28 +75,33 @@ export function ActivityManagerCard({ amount }: { amount: string }) {
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
+      {/* Search + chips: stacks below md, side-by-side above */}
+      <div className="flex flex-col md:flex-row md:items-center gap-3 min-w-0">
         <div
-          className="flex items-center gap-2 flex-1 h-10 px-4 rounded-full"
+          className="flex items-center gap-2 flex-1 h-10 px-4 rounded-full min-w-0"
           style={{ backgroundColor: "var(--color-surface-warm)" }}
         >
-          <Search size={14} style={{ color: "var(--color-text-subtle)" }} />
+          <Search
+            size={14}
+            style={{ color: "var(--color-text-subtle)" }}
+            className="shrink-0"
+          />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search in activities ..."
-            className="flex-1 bg-transparent outline-none placeholder:opacity-100"
+            className="flex-1 min-w-0 bg-transparent outline-none placeholder:opacity-100"
             style={{
               color: "var(--color-text)",
               fontSize: "var(--text-body)",
             }}
           />
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {filters.includes("Team") && (
             <span
-              className="inline-flex items-center gap-2 h-8 px-3 rounded-full border"
+              className="inline-flex items-center gap-2 h-8 px-3 rounded-full border whitespace-nowrap"
               style={{
                 backgroundColor: "var(--color-surface)",
                 borderColor: "var(--color-border)",
@@ -118,7 +123,7 @@ export function ActivityManagerCard({ amount }: { amount: string }) {
                 key={f}
                 type="button"
                 onClick={() => removeFilter(f)}
-                className="inline-flex items-center gap-1.5 h-8 pl-3 pr-2 rounded-full"
+                className="inline-flex items-center gap-1.5 h-8 pl-3 pr-2 rounded-full whitespace-nowrap"
                 style={{
                   backgroundColor: "var(--color-surface-warm)",
                   color: "var(--color-text-2)",
@@ -133,10 +138,12 @@ export function ActivityManagerCard({ amount }: { amount: string }) {
       </div>
 
       {!collapsed && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-[minmax(0,3fr)_minmax(0,5fr)_minmax(0,3fr)] gap-4">
           <ActivityBarMini amount={amount} />
           <WorkspacesList />
-          <WalletVerifyCard />
+          <div className="sm:col-span-2 xl:col-span-1">
+            <WalletVerifyCard />
+          </div>
         </div>
       )}
     </div>
