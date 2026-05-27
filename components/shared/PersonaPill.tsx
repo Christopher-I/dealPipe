@@ -1,0 +1,138 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { ChevronDown, LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
+import {
+  type Persona,
+  clearActivePersona,
+  getActivePersona,
+} from "@/lib/data/session";
+
+export function PersonaPill() {
+  const router = useRouter();
+  const [persona, setPersona] = useState<Persona | null>(null);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setPersona(getActivePersona());
+  }, []);
+
+  if (!persona) {
+    return (
+      <a
+        href="/login"
+        className="inline-flex items-center gap-2 h-11 px-5 rounded-full text-[length:var(--text-body)] font-medium border transition-colors duration-200"
+        style={{
+          backgroundColor: "var(--color-surface)",
+          borderColor: "var(--color-border)",
+          color: "var(--color-text-2)",
+        }}
+      >
+        Sign in
+      </a>
+    );
+  }
+
+  const onSignOut = () => {
+    clearActivePersona();
+    router.push("/login");
+  };
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="inline-flex items-center gap-3 h-11 pl-1.5 pr-4 rounded-full border transition-colors duration-200"
+        style={{
+          backgroundColor: "var(--color-surface)",
+          borderColor: "var(--color-border)",
+        }}
+      >
+        <span
+          className="w-8 h-8 rounded-full flex items-center justify-center text-white text-[12px] font-medium"
+          style={{ backgroundColor: persona.orgAccentHex }}
+        >
+          {persona.initials}
+        </span>
+        <span className="flex flex-col leading-tight items-start">
+          <span
+            className="font-medium"
+            style={{
+              color: "var(--color-text)",
+              fontSize: "var(--text-body)",
+            }}
+          >
+            {persona.name}
+          </span>
+          <span
+            style={{
+              color: "var(--color-text-muted)",
+              fontSize: "var(--text-meta)",
+            }}
+          >
+            {persona.title}
+          </span>
+        </span>
+        <ChevronDown
+          size={14}
+          style={{ color: "var(--color-text-muted)" }}
+        />
+      </button>
+      {open && (
+        <div
+          className="absolute right-0 mt-2 w-56 rounded-2xl border p-2 z-50"
+          style={{
+            backgroundColor: "var(--color-surface)",
+            borderColor: "var(--color-border)",
+          }}
+        >
+          <div className="px-3 py-2">
+            <p
+              className="font-medium"
+              style={{
+                color: "var(--color-text)",
+                fontSize: "var(--text-body)",
+              }}
+            >
+              {persona.orgName}
+            </p>
+            <p
+              className="capitalize"
+              style={{
+                color: "var(--color-text-muted)",
+                fontSize: "var(--text-meta)",
+              }}
+            >
+              {persona.role}
+            </p>
+          </div>
+          <div
+            className="h-px my-1"
+            style={{ backgroundColor: "var(--color-border)" }}
+          />
+          <button
+            type="button"
+            onClick={onSignOut}
+            className="flex items-center gap-2 w-full px-3 py-2 rounded-xl text-left transition-colors duration-150"
+            style={{
+              color: "var(--color-text-2)",
+              fontSize: "var(--text-body)",
+            }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.backgroundColor =
+                "var(--color-surface-warm)")
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.backgroundColor = "transparent")
+            }
+          >
+            <LogOut size={16} />
+            Switch persona
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
