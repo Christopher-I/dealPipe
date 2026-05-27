@@ -48,17 +48,19 @@ export function ActivityBarMini({ amount, currency = "USD" }: Props) {
         borderColor: "var(--color-border)",
       }}
     >
-      <p
-        className="font-medium tabular"
-        style={{
-          color: "var(--color-text)",
-          fontSize: "var(--text-metric-lg)",
-        }}
-      >
-        <span className="mr-1">$</span>
-        {amount}
+      <div className="flex items-baseline gap-2 flex-wrap min-w-0">
         <span
-          className="ml-2"
+          className="font-medium tabular"
+          style={{
+            color: "var(--color-text)",
+            fontSize: "clamp(1.25rem, 5vw, 1.625rem)",
+            lineHeight: "var(--text-metric-lg--line-height)",
+          }}
+        >
+          <span className="mr-1">$</span>
+          {amount}
+        </span>
+        <span
           style={{
             color: "var(--color-text-muted)",
             fontSize: "var(--text-meta)",
@@ -66,7 +68,7 @@ export function ActivityBarMini({ amount, currency = "USD" }: Props) {
         >
           {currency}
         </span>
-      </p>
+      </div>
       <svg
         key={page}
         viewBox={`0 0 ${totalW} ${chartH}`}

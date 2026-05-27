@@ -67,8 +67,8 @@ export function MetricCard({
         />
       </div>
 
-      <div className="flex items-end justify-between gap-3 mt-auto">
-        <div>
+      <div className="flex items-end justify-between gap-3 mt-auto flex-wrap min-w-0">
+        <div className="min-w-0">
           <p
             style={{
               color: "var(--color-text-muted)",
@@ -81,7 +81,8 @@ export function MetricCard({
             className="font-medium tabular mt-1"
             style={{
               color: "var(--color-text)",
-              fontSize: "var(--text-metric-xl)",
+              fontSize: "clamp(1.375rem, 4.5vw, 1.875rem)",
+              lineHeight: "var(--text-metric-xl--line-height)",
             }}
           >
             <span
@@ -100,11 +101,11 @@ export function MetricCard({
             onClick={() =>
               toast(action.onClickToast ?? `Opens ${action.line2}`)
             }
-            className="inline-flex items-center gap-2.5 pl-1.5 pr-3.5 h-11 rounded-full shrink-0"
+            className="inline-flex items-center gap-2.5 pl-1.5 pr-3.5 h-11 rounded-full"
             style={{ backgroundColor: "var(--color-surface-peach)" }}
           >
             <span
-              className="w-8 h-8 rounded-full flex items-center justify-center"
+              className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
               style={{
                 backgroundColor: "var(--color-accent)",
                 color: "var(--color-text-on-accent)",
@@ -113,7 +114,7 @@ export function MetricCard({
               <action.icon size={14} />
             </span>
             <span
-              className="flex flex-col leading-tight items-start"
+              className="flex flex-col leading-tight items-start whitespace-nowrap"
               style={{
                 color: "var(--color-text-2)",
                 fontSize: "var(--text-chip)",
