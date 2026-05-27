@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 type Props = {
   percent: number;
   label?: string;
@@ -9,9 +13,16 @@ export function GrowthRateDial({ percent, label = "Growth rate" }: Props) {
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
   const fraction = Math.max(0, Math.min(100, percent)) / 100;
-  const gap = 6; // arc-length gap between active and track on each side
+  const gap = 6;
   const coralLen = Math.max(0, c * fraction - gap);
   const trackLen = Math.max(0, c * (1 - fraction) - gap);
+
+  // Reveal both arcs on mount via dashoffset transition.
+  const [revealed, setRevealed] = useState(false);
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setRevealed(true));
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   return (
     <div
@@ -33,7 +44,6 @@ export function GrowthRateDial({ percent, label = "Growth rate" }: Props) {
             <stop offset="100%" stopColor="var(--color-dial-accent-bottom)" />
           </linearGradient>
         </defs>
-        {/* Rotate so 0deg = 12 o'clock (default SVG start is 3 o'clock) */}
         <g transform={`rotate(-90 ${size / 2} ${size / 2})`}>
           <circle
             cx={size / 2}
@@ -44,7 +54,11 @@ export function GrowthRateDial({ percent, label = "Growth rate" }: Props) {
             strokeWidth={stroke}
             strokeLinecap="round"
             strokeDasharray={`${coralLen} ${c}`}
-            strokeDashoffset={0}
+            strokeDashoffset={revealed ? 0 : coralLen}
+            style={{
+              transition:
+                "stroke-dashoffset 900ms cubic-bezier(0.215, 0.61, 0.355, 1)",
+            }}
           />
           <circle
             cx={size / 2}
@@ -55,11 +69,18 @@ export function GrowthRateDial({ percent, label = "Growth rate" }: Props) {
             strokeWidth={stroke}
             strokeLinecap="round"
             strokeDasharray={`${trackLen} ${c}`}
-            strokeDashoffset={-(coralLen + gap)}
+            strokeDashoffset={revealed ? -(coralLen + gap) : -(coralLen + gap) - trackLen}
+            style={{
+              transition:
+                "stroke-dashoffset 900ms cubic-bezier(0.215, 0.61, 0.355, 1) 200ms",
+            }}
           />
         </g>
       </svg>
-      <div className="relative text-center z-10">
+      <div
+        className="relative text-center z-10 dp-fade-in"
+        style={{ animationDelay: "500ms" }}
+      >
         <p
           className="font-medium tabular"
           style={{

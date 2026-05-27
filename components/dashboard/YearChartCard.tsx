@@ -1,7 +1,6 @@
 import { BarChart2 } from "lucide-react";
 
 export function YearChartCard() {
-  // Two markers on a small grid background. Pure SVG.
   return (
     <div
       className="rounded-[var(--radius-card)] border p-5 flex flex-col gap-3 h-full"
@@ -61,7 +60,8 @@ export function YearChartCard() {
           </pattern>
         </defs>
         <rect width="200" height="110" fill="url(#ycgrid)" />
-        {/* 2025 marker (gray, lower) */}
+
+        {/* 2025 marker (gray, lower) — extend up from baseline + dot pop */}
         <line
           x1="100"
           y1="110"
@@ -70,8 +70,18 @@ export function YearChartCard() {
           stroke="var(--color-text-subtle)"
           strokeWidth="1.5"
           strokeLinecap="round"
+          className="dp-grow-y"
+          style={{ transformOrigin: "100px 110px", animationDelay: "100ms" }}
         />
-        <circle cx="100" cy="70" r="4" fill="var(--color-text-subtle)" />
+        <circle
+          cx="100"
+          cy="70"
+          r="4"
+          fill="var(--color-text-subtle)"
+          className="dp-scale-in"
+          style={{ transformOrigin: "100px 70px", animationDelay: "500ms" }}
+        />
+
         {/* 2026 marker (coral, higher) */}
         <line
           x1="150"
@@ -81,8 +91,17 @@ export function YearChartCard() {
           stroke="var(--color-accent)"
           strokeWidth="2"
           strokeLinecap="round"
+          className="dp-grow-y"
+          style={{ transformOrigin: "150px 110px", animationDelay: "260ms" }}
         />
-        <circle cx="150" cy="32" r="5" fill="var(--color-accent)" />
+        <circle
+          cx="150"
+          cy="32"
+          r="5"
+          fill="var(--color-accent)"
+          className="dp-scale-in"
+          style={{ transformOrigin: "150px 32px", animationDelay: "700ms" }}
+        />
       </svg>
     </div>
   );

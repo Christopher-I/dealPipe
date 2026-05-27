@@ -15,7 +15,7 @@ export function DaysCountdownCard({ days, totalDays = 30, subtitle }: Props) {
 
   return (
     <div
-      className="rounded-[var(--radius-card)] border p-6 flex flex-col gap-4"
+      className="rounded-[var(--radius-card)] border p-5 flex flex-col gap-3 h-full"
       style={{
         backgroundColor: "var(--color-surface)",
         borderColor: "var(--color-border)",
@@ -51,23 +51,28 @@ export function DaysCountdownCard({ days, totalDays = 30, subtitle }: Props) {
         </p>
       </div>
       <div
-        className="grid mt-1"
+        className="grid mt-auto"
         style={{
           gridTemplateColumns: `repeat(${DOT_COLS}, 1fr)`,
           gap: 6,
         }}
         aria-hidden
       >
-        {Array.from({ length: TOTAL_DOTS }).map((_, i) => (
-          <span
-            key={i}
-            className="w-1.5 h-1.5 rounded-full block"
-            style={{
-              backgroundColor:
-                i < filled ? "var(--color-accent)" : "var(--color-border)",
-            }}
-          />
-        ))}
+        {Array.from({ length: TOTAL_DOTS }).map((_, i) => {
+          const isFilled = i < filled;
+          return (
+            <span
+              key={i}
+              className="w-1.5 h-1.5 rounded-full block dp-scale-in"
+              style={{
+                backgroundColor: isFilled
+                  ? "var(--color-accent)"
+                  : "var(--color-border)",
+                animationDelay: `${i * 15}ms`,
+              }}
+            />
+          );
+        })}
       </div>
     </div>
   );

@@ -1,7 +1,11 @@
+"use client";
+
 import { Activity } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useCountUp } from "@/lib/hooks/useCountUp";
 
 type Props = {
-  amount: { sign: string; integer: string; fraction: string };
+  value: number;
   title: string;
   subtitle: string;
   deltaPercent: number;
@@ -11,7 +15,34 @@ type Props = {
 const LINE_PATH =
   "M 0 60 C 20 55, 30 35, 50 45 S 80 70, 100 50 S 130 20, 150 35 S 180 65, 200 50 S 230 25, 260 40 S 295 70, 320 50 S 355 30, 380 38 S 410 55, 440 30 S 470 5, 500 25";
 
-export function MainStocksCard({ amount, title, subtitle, deltaPercent }: Props) {
+export function MainStocksCard({
+  value,
+  title,
+  subtitle,
+  deltaPercent,
+}: Props) {
+  const animated = useCountUp(value, 900);
+  const fixed = animated.toFixed(2);
+  const [int, frac] = fixed.split(".");
+  const integer = Number(int).toLocaleString("en-US");
+
+  // Measure path length so we can animate stroke-dashoffset cleanly.
+  const pathRef = useRef<SVGPathElement>(null);
+  const [length, setLength] = useState<number | null>(null);
+  const [revealed, setRevealed] = useState(false);
+
+  useEffect(() => {
+    if (pathRef.current) {
+      setLength(pathRef.current.getTotalLength());
+    }
+  }, []);
+
+  useEffect(() => {
+    if (length == null) return;
+    const raf = requestAnimationFrame(() => setRevealed(true));
+    return () => cancelAnimationFrame(raf);
+  }, [length]);
+
   return (
     <div
       className="rounded-[var(--radius-card)] border p-5 flex flex-col gap-3 h-full"
@@ -41,9 +72,9 @@ export function MainStocksCard({ amount, title, subtitle, deltaPercent }: Props)
             className="mr-1"
             style={{ color: "var(--color-accent-glyph)" }}
           >
-            {amount.sign}
+            $
           </span>
-          {amount.integer}.{amount.fraction}
+          {integer}.{frac}
         </p>
       </div>
 
@@ -54,12 +85,20 @@ export function MainStocksCard({ amount, title, subtitle, deltaPercent }: Props)
         aria-hidden
       >
         <path
+          ref={pathRef}
           d={LINE_PATH}
           fill="none"
           stroke="var(--color-accent)"
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
+          strokeDasharray={length ?? 0}
+          strokeDashoffset={revealed ? 0 : length ?? 0}
+          style={{
+            transition: revealed
+              ? "stroke-dashoffset 1400ms cubic-bezier(0.215, 0.61, 0.355, 1)"
+              : "none",
+          }}
         />
       </svg>
 

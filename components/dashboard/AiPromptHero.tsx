@@ -1,4 +1,4 @@
-import { Mic } from "lucide-react";
+import { Mic, Sparkles } from "lucide-react";
 
 export function AiPromptHero({
   greeting = "Hey, Need help?",
@@ -12,6 +12,20 @@ export function AiPromptHero({
   return (
     <div className="flex items-center justify-end gap-6 flex-1">
       <div className="text-right">
+        <div className="flex items-center justify-end gap-2 mb-1">
+          <span
+            className="inline-flex items-center gap-1.5 h-6 px-2.5 rounded-full"
+            style={{
+              backgroundColor: "var(--color-surface-peach)",
+              color: "var(--color-accent)",
+              fontSize: "var(--text-meta)",
+              fontWeight: 500,
+            }}
+          >
+            <Sparkles size={11} />
+            DealPipe AI · Voice
+          </span>
+        </div>
         <p
           className="font-medium tracking-tight"
           style={{
@@ -38,8 +52,9 @@ export function AiPromptHero({
       </div>
       <button
         type="button"
-        aria-label="Voice input"
-        className="w-24 h-24 rounded-full flex items-center justify-center border transition-colors duration-200 shrink-0"
+        aria-label="Talk to DealPipe AI"
+        title="Talk to DealPipe AI"
+        className="relative w-24 h-24 rounded-full flex items-center justify-center border transition-colors duration-200 shrink-0 dp-mic-pulse"
         style={{
           backgroundColor: "var(--color-surface)",
           borderColor: "var(--color-border-strong)",

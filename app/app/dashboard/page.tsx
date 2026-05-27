@@ -20,18 +20,6 @@ import { YearChartCard } from "@/components/dashboard/YearChartCard";
 
 import { getDealsSummary, listDeals } from "@/lib/data";
 
-function splitMoney(value: number): {
-  sign: string;
-  integer: string;
-  fraction: string;
-} {
-  const sign = "$";
-  const fixed = value.toFixed(2);
-  const [int, frac] = fixed.split(".");
-  const integer = Number(int).toLocaleString("en-US");
-  return { sign, integer, fraction: frac ?? "00" };
-}
-
 export default function DashboardPage() {
   const { persona } = usePersona();
 
@@ -76,9 +64,6 @@ export default function DashboardPage() {
   }, [persona.orgId]);
 
   const today = useMemo(() => new Date(), []);
-  const incomeAmount = splitMoney(income);
-  const paidAmount = splitMoney(paid);
-  const stocksAmount = splitMoney(stocks);
   const barChartTop = (income / 1000).toFixed(2);
 
   const growthPercent = 36;
@@ -86,13 +71,11 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-4">
-      {/* Second header row: date+tasks (left) | AI prompt + mic (right) */}
       <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:gap-8 mt-1">
         <DateTaskRow date={today} />
         <AiPromptHero />
       </div>
 
-      {/* Main grid: vertical rail + content */}
       <div className="flex gap-4">
         <VerticalActionRail />
 
@@ -111,19 +94,18 @@ export default function DashboardPage() {
               <MetricCard
                 icon={RotateCw}
                 label="Pipeline inflow"
-                amount={incomeAmount}
+                value={income}
                 cadence="Weekly"
               />
               <MetricCard
                 icon={History}
                 label="Cap calls"
-                amount={paidAmount}
+                value={paid}
                 cadence="Weekly"
                 action={{ icon: TrendingUp, line1: "View", line2: "trend" }}
               />
             </div>
 
-            {/* Right cluster: 3-col × 2-row inner grid filling its parent row height */}
             <div
               className="grid gap-3"
               style={{
@@ -146,7 +128,7 @@ export default function DashboardPage() {
                 <GrowthRateDial percent={growthPercent} />
               </div>
               <MainStocksCard
-                amount={stocksAmount}
+                value={stocks}
                 title="Portfolio NAV"
                 subtitle="Open + closed deals"
                 deltaPercent={stocksDelta}

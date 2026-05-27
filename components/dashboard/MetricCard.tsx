@@ -1,9 +1,13 @@
+"use client";
+
 import { ChevronDown, type LucideIcon } from "lucide-react";
+import { useCountUp } from "@/lib/hooks/useCountUp";
 
 type MetricCardProps = {
   icon: LucideIcon;
   label: string;
-  amount: { sign: string; integer: string; fraction?: string };
+  value: number;
+  decimals?: number;
   cadence?: string;
   action?: {
     icon: LucideIcon;
@@ -15,10 +19,16 @@ type MetricCardProps = {
 export function MetricCard({
   icon: Icon,
   label,
-  amount,
+  value,
+  decimals = 2,
   cadence = "Weekly",
   action,
 }: MetricCardProps) {
+  const animated = useCountUp(value, 850);
+  const fixed = animated.toFixed(decimals);
+  const [int, frac] = fixed.split(".");
+  const integer = Number(int).toLocaleString("en-US");
+
   return (
     <div
       className="rounded-[var(--radius-card)] border p-5 flex flex-col gap-4 h-full"
@@ -73,12 +83,10 @@ export function MetricCard({
               className="mr-1"
               style={{ color: "var(--color-accent-glyph)" }}
             >
-              {amount.sign}
+              $
             </span>
-            {amount.integer}
-            {amount.fraction !== undefined && (
-              <span>.{amount.fraction}</span>
-            )}
+            {integer}
+            {decimals > 0 && <span>.{frac}</span>}
           </p>
         </div>
         {action && (
