@@ -1,43 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ChevronDown, LogOut } from "lucide-react";
-import { useRouter } from "next/navigation";
-import {
-  type Persona,
-  clearActivePersona,
-  getActivePersona,
-} from "@/lib/data/session";
+import { usePersona } from "./PersonaProvider";
 
 export function PersonaPill() {
-  const router = useRouter();
-  const [persona, setPersona] = useState<Persona | null>(null);
+  const { persona, signOut } = usePersona();
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    setPersona(getActivePersona());
-  }, []);
-
-  if (!persona) {
-    return (
-      <a
-        href="/login"
-        className="inline-flex items-center gap-2 h-11 px-5 rounded-full text-[length:var(--text-body)] font-medium border transition-colors duration-200"
-        style={{
-          backgroundColor: "var(--color-surface)",
-          borderColor: "var(--color-border)",
-          color: "var(--color-text-2)",
-        }}
-      >
-        Sign in
-      </a>
-    );
-  }
-
-  const onSignOut = () => {
-    clearActivePersona();
-    router.push("/login");
-  };
 
   return (
     <div className="relative">
@@ -114,7 +83,7 @@ export function PersonaPill() {
           />
           <button
             type="button"
-            onClick={onSignOut}
+            onClick={signOut}
             className="flex items-center gap-2 w-full px-3 py-2 rounded-xl text-left transition-colors duration-150"
             style={{
               color: "var(--color-text-2)",

@@ -31,3 +31,29 @@ export function formatPercent(value: number, fractionDigits = 1): string {
   const sign = value >= 0 ? "+" : "";
   return `${sign}${value.toFixed(fractionDigits)}%`;
 }
+
+export function formatDate(iso: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(iso));
+}
+
+export const STAGE_LABEL: Record<string, string> = {
+  sourcing: "Sourcing",
+  loi: "LOI",
+  diligence: "Diligence",
+  closing: "Closing",
+  closed_won: "Closed (Won)",
+  closed_lost: "Closed (Lost)",
+};
+
+export const ASSET_CLASS_LABEL: Record<string, string> = {
+  office: "Office",
+  retail: "Retail",
+  industrial: "Industrial",
+  multifamily: "Multifamily",
+  hospitality: "Hospitality",
+  mixed_use: "Mixed-use",
+};

@@ -1,4 +1,4 @@
-import { RequirePersona } from "@/components/shared/RequirePersona";
+import { PersonaProvider } from "@/components/shared/PersonaProvider";
 import { Topbar } from "@/components/shared/Topbar";
 
 export default function AppShellLayout({
@@ -7,7 +7,7 @@ export default function AppShellLayout({
   children: React.ReactNode;
 }) {
   return (
-    <RequirePersona>
+    <PersonaProvider>
       <div
         className="min-h-screen p-4"
         style={{ backgroundColor: "var(--color-page)" }}
@@ -20,6 +20,6 @@ export default function AppShellLayout({
           <main className="mt-6">{children}</main>
         </div>
       </div>
-    </RequirePersona>
+    </PersonaProvider>
   );
 }
