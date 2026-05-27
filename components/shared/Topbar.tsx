@@ -35,7 +35,9 @@ export function Topbar() {
           <Plus size={18} />
         </button>
         <PersonaPill />
-        <div
+        <form
+          action="/app/search"
+          method="get"
           className="hidden lg:flex items-center gap-2 h-12 px-5 rounded-full border w-[280px]"
           style={{
             backgroundColor: "var(--color-surface)",
@@ -45,6 +47,7 @@ export function Topbar() {
           <Search size={16} style={{ color: "var(--color-text-subtle)" }} />
           <input
             type="text"
+            name="q"
             placeholder="Start searching here ..."
             className="flex-1 bg-transparent outline-none placeholder:opacity-100"
             style={{
@@ -52,7 +55,7 @@ export function Topbar() {
               fontSize: "var(--text-body)",
             }}
           />
-        </div>
+        </form>
       </div>
     </header>
   );
