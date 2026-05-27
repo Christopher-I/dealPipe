@@ -14,7 +14,7 @@ const LINE_PATH =
 export function MainStocksCard({ amount, title, subtitle, deltaPercent }: Props) {
   return (
     <div
-      className="rounded-[var(--radius-card)] border p-6 flex flex-col gap-3"
+      className="rounded-[var(--radius-card)] border p-5 flex flex-col gap-3 h-full"
       style={{
         backgroundColor: "var(--color-surface)",
         borderColor: "var(--color-border)",
@@ -50,7 +50,7 @@ export function MainStocksCard({ amount, title, subtitle, deltaPercent }: Props)
       <svg
         viewBox="0 0 500 80"
         preserveAspectRatio="none"
-        className="w-full h-20"
+        className="w-full flex-1 min-h-[60px]"
         aria-hidden
       >
         <path

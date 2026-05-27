@@ -4,7 +4,7 @@ export function YearChartCard() {
   // Two markers on a small grid background. Pure SVG.
   return (
     <div
-      className="rounded-[var(--radius-card)] border p-6 flex flex-col gap-4"
+      className="rounded-[var(--radius-card)] border p-5 flex flex-col gap-3 h-full"
       style={{
         backgroundColor: "var(--color-surface)",
         borderColor: "var(--color-border)",
@@ -29,7 +29,7 @@ export function YearChartCard() {
               fontSize: "var(--text-chip)",
             }}
           >
-            2023
+            2026
           </span>
           <span
             className="inline-flex items-center h-7 px-3 rounded-full"
@@ -39,12 +39,12 @@ export function YearChartCard() {
               fontSize: "var(--text-chip)",
             }}
           >
-            2022
+            2025
           </span>
         </div>
       </div>
 
-      <svg viewBox="0 0 200 110" className="w-full">
+      <svg viewBox="0 0 200 110" className="w-full flex-1 min-h-[80px]">
         <defs>
           <pattern
             id="ycgrid"
@@ -61,7 +61,7 @@ export function YearChartCard() {
           </pattern>
         </defs>
         <rect width="200" height="110" fill="url(#ycgrid)" />
-        {/* 2022 marker (gray, lower) */}
+        {/* 2025 marker (gray, lower) */}
         <line
           x1="100"
           y1="110"
@@ -72,7 +72,7 @@ export function YearChartCard() {
           strokeLinecap="round"
         />
         <circle cx="100" cy="70" r="4" fill="var(--color-text-subtle)" />
-        {/* 2023 marker (coral, higher) */}
+        {/* 2026 marker (coral, higher) */}
         <line
           x1="150"
           y1="110"

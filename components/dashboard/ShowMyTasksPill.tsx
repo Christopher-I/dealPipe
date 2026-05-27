@@ -3,7 +3,7 @@
 import { ArrowUpRight } from "lucide-react";
 
 export function ShowMyTasksPill({
-  label = "Show my Tasks",
+  label = "Show my deals",
   onClick,
 }: {
   label?: string;

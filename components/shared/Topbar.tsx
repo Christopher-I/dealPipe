@@ -1,50 +1,64 @@
-import { Menu, Plus, Search } from "lucide-react";
+import { ArrowLeft, Menu, Plus, Search } from "lucide-react";
+import Link from "next/link";
 import { Logo } from "./Logo";
 import { PersonaPill } from "./PersonaPill";
 
 export function Topbar() {
   return (
-    <header className="flex items-center justify-between gap-5">
-      <div className="flex items-center gap-4">
+    <header className="flex items-center justify-between gap-4">
+      <div className="flex items-center gap-3">
+        <Link
+          href="/"
+          title="Back to home"
+          aria-label="Back to home"
+          className="w-11 h-11 rounded-full flex items-center justify-center border transition-colors duration-200"
+          style={{
+            backgroundColor: "var(--color-surface)",
+            borderColor: "var(--color-border)",
+            color: "var(--color-text-2)",
+          }}
+        >
+          <ArrowLeft size={16} />
+        </Link>
         <button
           type="button"
           aria-label="Menu"
-          className="w-12 h-12 rounded-full flex items-center justify-center border transition-colors duration-200"
+          className="w-11 h-11 rounded-full flex items-center justify-center border transition-colors duration-200"
           style={{
             backgroundColor: "var(--color-surface)",
             borderColor: "var(--color-border)",
             color: "var(--color-text-2)",
           }}
         >
-          <Menu size={18} />
+          <Menu size={16} />
         </button>
-        <Logo size="md" />
+        <Logo size="md" href="/" />
       </div>
 
-      <div className="flex items-center gap-3 ml-auto">
+      <div className="flex items-center gap-2 ml-auto">
         <button
           type="button"
           aria-label="New"
-          className="w-12 h-12 rounded-full flex items-center justify-center border transition-colors duration-200"
+          className="w-11 h-11 rounded-full flex items-center justify-center border transition-colors duration-200"
           style={{
             backgroundColor: "var(--color-surface)",
             borderColor: "var(--color-border)",
             color: "var(--color-text-2)",
           }}
         >
-          <Plus size={18} />
+          <Plus size={16} />
         </button>
         <PersonaPill />
         <form
           action="/app/search"
           method="get"
-          className="hidden lg:flex items-center gap-2 h-12 px-5 rounded-full border w-[280px]"
+          className="hidden lg:flex items-center gap-2 h-11 px-5 rounded-full border w-[240px]"
           style={{
             backgroundColor: "var(--color-surface)",
             borderColor: "var(--color-border)",
           }}
         >
-          <Search size={16} style={{ color: "var(--color-text-subtle)" }} />
+          <Search size={14} style={{ color: "var(--color-text-subtle)" }} />
           <input
             type="text"
             name="q"

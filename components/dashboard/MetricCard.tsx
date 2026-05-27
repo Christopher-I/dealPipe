@@ -21,7 +21,7 @@ export function MetricCard({
 }: MetricCardProps) {
   return (
     <div
-      className="rounded-[var(--radius-card)] border p-6 flex flex-col gap-5"
+      className="rounded-[var(--radius-card)] border p-5 flex flex-col gap-4 h-full"
       style={{
         backgroundColor: "var(--color-surface)",
         borderColor: "var(--color-border)",
@@ -52,7 +52,7 @@ export function MetricCard({
         </button>
       </div>
 
-      <div className="flex items-end justify-between gap-4">
+      <div className="flex items-end justify-between gap-3 mt-auto">
         <div>
           <p
             style={{
@@ -84,7 +84,7 @@ export function MetricCard({
         {action && (
           <button
             type="button"
-            className="inline-flex items-center gap-3 pl-2 pr-4 h-12 rounded-full shrink-0"
+            className="inline-flex items-center gap-2.5 pl-1.5 pr-3.5 h-11 rounded-full shrink-0"
             style={{ backgroundColor: "var(--color-surface-peach)" }}
           >
             <span

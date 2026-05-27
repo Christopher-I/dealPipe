@@ -47,7 +47,6 @@ export default function DashboardPage() {
       getDealsSummary({ orgId: persona.orgId }),
     ]).then(([deals, summary]) => {
       if (!alive) return;
-      // Derive visually-pleasing weekly numbers from the org's own pipeline.
       const won = summary.byStage.closed_won.valueUsd / 1000 / 52;
       const inflow = won > 0 ? won : 23_194.8;
       const outflow = inflow * 0.35;
@@ -55,7 +54,6 @@ export default function DashboardPage() {
       setPaid(Math.round(outflow * 100) / 100);
       setStocks(summary.pipelineValueUsd / 1_000_000);
 
-      // Find the nearest expected close for an active deal.
       const now = Date.now();
       const upcoming = deals
         .filter(
@@ -83,87 +81,89 @@ export default function DashboardPage() {
   const stocksAmount = splitMoney(stocks);
   const barChartTop = (income / 1000).toFixed(2);
 
-  // 36% is the reference value — we approximate from won/total later.
   const growthPercent = 36;
   const stocksDelta = 9.3;
 
   return (
-    <div className="space-y-6">
-      {/* Header row 2: date + tasks (left) | AI prompt + mic (right) */}
-      <div className="flex flex-col xl:flex-row xl:items-center gap-6 xl:gap-10 mt-2">
+    <div className="space-y-4">
+      {/* Second header row: date+tasks (left) | AI prompt + mic (right) */}
+      <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:gap-8 mt-1">
         <DateTaskRow date={today} />
         <AiPromptHero />
       </div>
 
-      {/* Main grid: vertical rail + 12-col card grid */}
-      <div className="flex gap-5">
+      {/* Main grid: vertical rail + content */}
+      <div className="flex gap-4">
         <VerticalActionRail />
-        <div
-          className="grid flex-1 gap-5"
-          style={{
-            gridTemplateColumns: "repeat(12, minmax(0, 1fr))",
-            gridAutoRows: "minmax(0, auto)",
-          }}
-        >
-          {/* Row 1 */}
-          <div style={{ gridColumn: "span 3" }}>
-            <AccountCard />
-          </div>
-          <div style={{ gridColumn: "span 3" }}>
-            <MetricCard
-              icon={RotateCw}
-              label="Total income"
-              amount={incomeAmount}
-              cadence="Weekly"
-            />
-          </div>
-          <div style={{ gridColumn: "span 1" }}>
-            <SystemLockCard />
-          </div>
-          <div style={{ gridColumn: "span 2" }}>
-            <DaysCountdownCard
-              days={daysToClose}
-              totalDays={30}
-              subtitle="To next close"
-            />
-          </div>
-          <div style={{ gridColumn: "span 3" }}>
-            <YearChartCard />
-          </div>
 
-          {/* Row 2 */}
-          <div style={{ gridColumn: "span 3", gridRow: "span 2" }}>
-            <AnnualProfitsCard />
-          </div>
-          <div style={{ gridColumn: "span 3" }}>
-            <MetricCard
-              icon={History}
-              label="Total paid"
-              amount={paidAmount}
-              cadence="Weekly"
-              action={{ icon: TrendingUp, line1: "View", line2: "on chart mode" }}
-            />
-          </div>
+        <div className="flex-1 flex flex-col gap-4 min-w-0">
+          {/* ── Row 1: VISA | Income/Paid stack | Right cluster ── */}
           <div
-            style={{ gridColumn: "span 2" }}
-            className="flex items-center justify-center"
+            className="grid gap-4"
+            style={{
+              gridTemplateColumns:
+                "minmax(0, 3fr) minmax(0, 3fr) minmax(0, 6fr)",
+            }}
           >
-            <GrowthRateDial percent={growthPercent} />
-          </div>
-          <div style={{ gridColumn: "span 4" }}>
-            <MainStocksCard
-              amount={stocksAmount}
-              title="Main Stocks"
-              subtitle="Extended & Limited"
-              deltaPercent={stocksDelta}
-            />
+            <AccountCard />
+
+            <div className="flex flex-col gap-4">
+              <MetricCard
+                icon={RotateCw}
+                label="Pipeline inflow"
+                amount={incomeAmount}
+                cadence="Weekly"
+              />
+              <MetricCard
+                icon={History}
+                label="Cap calls"
+                amount={paidAmount}
+                cadence="Weekly"
+                action={{ icon: TrendingUp, line1: "View", line2: "trend" }}
+              />
+            </div>
+
+            {/* Right cluster: 3-col × 2-row inner grid filling its parent row height */}
+            <div
+              className="grid gap-3"
+              style={{
+                gridTemplateColumns:
+                  "minmax(0, 1fr) minmax(0, 2fr) minmax(0, 2fr)",
+                gridTemplateRows: "minmax(0, 1fr) minmax(0, 1fr)",
+              }}
+            >
+              <SystemLockCard />
+              <DaysCountdownCard
+                days={daysToClose}
+                totalDays={30}
+                subtitle="To next close"
+              />
+              <YearChartCard />
+              <div
+                className="flex items-center justify-center"
+                style={{ gridColumn: "span 2" }}
+              >
+                <GrowthRateDial percent={growthPercent} />
+              </div>
+              <MainStocksCard
+                amount={stocksAmount}
+                title="Portfolio NAV"
+                subtitle="Open + closed deals"
+                deltaPercent={stocksDelta}
+              />
+            </div>
           </div>
 
-          {/* Row 3 */}
-          <div style={{ gridColumn: "span 6" }}>
+          {/* ── Row 2: Annual Profits | Activity Manager | Review Rating ── */}
+          <div
+            className="grid gap-4"
+            style={{
+              gridTemplateColumns:
+                "minmax(0, 4fr) minmax(0, 5fr) minmax(0, 3fr)",
+            }}
+          >
+            <AnnualProfitsCard />
             <ActivityManagerCard amount={barChartTop} />
-          </div>
-          <div style={{ gridColumn: "span 3" }}>
             <ReviewRatingCard />
           </div>
         </div>

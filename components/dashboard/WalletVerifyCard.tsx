@@ -16,7 +16,7 @@ export function WalletVerifyCard() {
             fontSize: "var(--text-headline)",
           }}
         >
-          Wallet Verification
+          Account security
         </p>
         <p
           className="mt-1"
@@ -27,7 +27,7 @@ export function WalletVerifyCard() {
         >
           Enable 2-step verification
           <br />
-          to secure your wallet.
+          to protect your sign-in.
         </p>
       </div>
       <button

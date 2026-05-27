@@ -1,25 +1,35 @@
-import { ChevronDown, Pencil } from "lucide-react";
+import { Building2, ChevronDown, Pencil } from "lucide-react";
 
 export function AccountCard() {
   return (
     <div
-      className="rounded-[var(--radius-card)] border p-6 flex flex-col gap-5"
+      className="rounded-[var(--radius-card)] border p-5 flex flex-col gap-4 h-full"
       style={{
         backgroundColor: "var(--color-surface)",
         borderColor: "var(--color-border)",
       }}
     >
       <div className="flex items-center justify-between">
-        <span
-          className="italic font-bold tracking-tight"
-          style={{
-            color: "#1A1F71",
-            fontSize: "1.25rem",
-            letterSpacing: "0.04em",
-          }}
-        >
-          VISA
-        </span>
+        <div className="flex items-center gap-2">
+          <span
+            className="w-7 h-7 rounded-full flex items-center justify-center"
+            style={{
+              backgroundColor: "var(--color-ink)",
+              color: "var(--color-text-on-ink)",
+            }}
+          >
+            <Building2 size={14} />
+          </span>
+          <span
+            className="font-medium tracking-tight"
+            style={{
+              color: "var(--color-text)",
+              fontSize: "var(--text-label)",
+            }}
+          >
+            Treasury
+          </span>
+        </div>
         <button
           type="button"
           className="inline-flex items-center gap-1.5 h-8 px-3 rounded-full border"
@@ -30,7 +40,7 @@ export function AccountCard() {
             fontSize: "var(--text-chip)",
           }}
         >
-          Direct Debits
+          Wire transfers
           <ChevronDown size={12} />
         </button>
       </div>
@@ -42,7 +52,7 @@ export function AccountCard() {
             fontSize: "var(--text-meta)",
           }}
         >
-          Linked to main account
+          Linked to fund operating account
         </p>
         <p
           className="font-medium tabular mt-1"
@@ -57,21 +67,21 @@ export function AccountCard() {
         </p>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         <button
           type="button"
-          className="h-11 px-7 rounded-full font-medium transition-[filter] duration-200"
+          className="h-10 px-6 rounded-full font-medium transition-[filter] duration-200"
           style={{
             backgroundColor: "var(--color-ink)",
             color: "var(--color-text-on-ink)",
             fontSize: "var(--text-body)",
           }}
         >
-          Receive
+          Deposit
         </button>
         <button
           type="button"
-          className="h-11 px-7 rounded-full font-medium border transition-colors duration-200"
+          className="h-10 px-6 rounded-full font-medium border transition-colors duration-200"
           style={{
             backgroundColor: "var(--color-surface)",
             borderColor: "var(--color-border)",
@@ -79,7 +89,7 @@ export function AccountCard() {
             fontSize: "var(--text-body)",
           }}
         >
-          Send
+          Transfer
         </button>
       </div>
 
@@ -88,7 +98,7 @@ export function AccountCard() {
         style={{ backgroundColor: "var(--color-border)" }}
       />
 
-      <div className="flex items-end justify-between">
+      <div className="flex items-end justify-between gap-3">
         <div>
           <p
             style={{
@@ -96,7 +106,7 @@ export function AccountCard() {
               fontSize: "var(--text-meta)",
             }}
           >
-            Monthly regular fee
+            Platform fee
           </p>
           <p
             className="font-medium tabular mt-1"
@@ -106,11 +116,20 @@ export function AccountCard() {
             }}
           >
             <span className="mr-1">$</span>25.00
+            <span
+              className="ml-1"
+              style={{
+                color: "var(--color-text-muted)",
+                fontSize: "var(--text-meta)",
+              }}
+            >
+              / mo
+            </span>
           </p>
         </div>
         <button
           type="button"
-          className="inline-flex items-center gap-3 pl-2 pr-4 h-12 rounded-full"
+          className="inline-flex items-center gap-2.5 pl-1.5 pr-3.5 h-11 rounded-full"
           style={{ backgroundColor: "var(--color-surface-peach)" }}
         >
           <span
@@ -123,11 +142,12 @@ export function AccountCard() {
             <Pencil size={14} />
           </span>
           <span
-            className="flex flex-col leading-tight items-start"
-            style={{ color: "var(--color-text-2)", fontSize: "var(--text-chip)" }}
+            style={{
+              color: "var(--color-text-2)",
+              fontSize: "var(--text-chip)",
+            }}
           >
-            <span>Edit</span>
-            <span>cards limitation</span>
+            Manage limits
           </span>
         </button>
       </div>

@@ -1,9 +1,11 @@
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 type LogoProps = {
   size?: "sm" | "md" | "lg";
   withWordmark?: boolean;
   className?: string;
+  href?: string;
 };
 
 const sizeMap = {
@@ -12,9 +14,14 @@ const sizeMap = {
   lg: { disc: "w-14 h-14", text: "text-[22px]" },
 } as const;
 
-export function Logo({ size = "md", withWordmark = true, className }: LogoProps) {
+export function Logo({
+  size = "md",
+  withWordmark = true,
+  className,
+  href = "/",
+}: LogoProps) {
   const s = sizeMap[size];
-  return (
+  const body = (
     <div className={cn("flex items-center gap-3", className)}>
       <div
         className={cn(
@@ -52,5 +59,17 @@ export function Logo({ size = "md", withWordmark = true, className }: LogoProps)
         </div>
       )}
     </div>
+  );
+
+  if (!href) return body;
+  return (
+    <Link
+      href={href}
+      title="Back to home"
+      aria-label="Back to home"
+      className="transition-opacity duration-200 hover:opacity-80"
+    >
+      {body}
+    </Link>
   );
 }
