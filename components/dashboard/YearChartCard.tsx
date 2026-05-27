@@ -1,6 +1,22 @@
+"use client";
+
 import { BarChart2 } from "lucide-react";
+import { useState } from "react";
+
+type YearKey = "2026" | "2025";
+
+type Data = { x: number; y: number };
+
+const DATA_BY_YEAR: Record<YearKey, { active: Data; inactive: Data }> = {
+  "2026": { active: { x: 150, y: 32 }, inactive: { x: 100, y: 70 } },
+  "2025": { active: { x: 100, y: 38 }, inactive: { x: 150, y: 64 } },
+};
 
 export function YearChartCard() {
+  const [active, setActive] = useState<YearKey>("2026");
+  const inactive: YearKey = active === "2026" ? "2025" : "2026";
+  const data = DATA_BY_YEAR[active];
+
   return (
     <div
       className="rounded-[var(--radius-card)] border p-5 flex flex-col gap-3 h-full"
@@ -20,7 +36,9 @@ export function YearChartCard() {
           <BarChart2 size={16} />
         </div>
         <div className="flex flex-col gap-1.5 items-end">
-          <span
+          <button
+            type="button"
+            onClick={() => setActive(active)}
             className="inline-flex items-center h-7 px-3 rounded-full font-medium"
             style={{
               backgroundColor: "var(--color-accent)",
@@ -28,9 +46,11 @@ export function YearChartCard() {
               fontSize: "var(--text-chip)",
             }}
           >
-            2026
-          </span>
-          <span
+            {active}
+          </button>
+          <button
+            type="button"
+            onClick={() => setActive(inactive)}
             className="inline-flex items-center h-7 px-3 rounded-full"
             style={{
               backgroundColor: "var(--color-surface-warm)",
@@ -38,8 +58,8 @@ export function YearChartCard() {
               fontSize: "var(--text-chip)",
             }}
           >
-            2025
-          </span>
+            {inactive}
+          </button>
         </div>
       </div>
 
@@ -61,46 +81,56 @@ export function YearChartCard() {
         </defs>
         <rect width="200" height="110" fill="url(#ycgrid)" />
 
-        {/* 2025 marker (gray, lower) — extend up from baseline + dot pop */}
         <line
-          x1="100"
+          x1={data.inactive.x}
           y1="110"
-          x2="100"
-          y2="70"
+          x2={data.inactive.x}
+          y2={data.inactive.y}
           stroke="var(--color-text-subtle)"
           strokeWidth="1.5"
           strokeLinecap="round"
           className="dp-grow-y"
-          style={{ transformOrigin: "100px 110px", animationDelay: "100ms" }}
+          style={{
+            transformOrigin: `${data.inactive.x}px 110px`,
+            animationDelay: "100ms",
+          }}
         />
         <circle
-          cx="100"
-          cy="70"
+          cx={data.inactive.x}
+          cy={data.inactive.y}
           r="4"
           fill="var(--color-text-subtle)"
           className="dp-scale-in"
-          style={{ transformOrigin: "100px 70px", animationDelay: "500ms" }}
+          style={{
+            transformOrigin: `${data.inactive.x}px ${data.inactive.y}px`,
+            animationDelay: "500ms",
+          }}
         />
 
-        {/* 2026 marker (coral, higher) */}
         <line
-          x1="150"
+          x1={data.active.x}
           y1="110"
-          x2="150"
-          y2="32"
+          x2={data.active.x}
+          y2={data.active.y}
           stroke="var(--color-accent)"
           strokeWidth="2"
           strokeLinecap="round"
           className="dp-grow-y"
-          style={{ transformOrigin: "150px 110px", animationDelay: "260ms" }}
+          style={{
+            transformOrigin: `${data.active.x}px 110px`,
+            animationDelay: "260ms",
+          }}
         />
         <circle
-          cx="150"
-          cy="32"
+          cx={data.active.x}
+          cy={data.active.y}
           r="5"
           fill="var(--color-accent)"
           className="dp-scale-in"
-          style={{ transformOrigin: "150px 32px", animationDelay: "700ms" }}
+          style={{
+            transformOrigin: `${data.active.x}px ${data.active.y}px`,
+            animationDelay: "700ms",
+          }}
         />
       </svg>
     </div>

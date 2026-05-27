@@ -1,11 +1,19 @@
+"use client";
+
+import { useState } from "react";
+import { toast } from "@/lib/toast";
+
 type Props = {
   amount: string;
   currency?: string;
 };
 
-const BAR_HEIGHTS = [
-  0.55, 0.85, 0.45, 0.95, 0.6, 0.75, 0.4, 0.7, 0.5, 0.65, 0.35, 0.5,
+const BAR_HEIGHTS_BY_PAGE = [
+  [0.55, 0.85, 0.45, 0.95, 0.6, 0.75, 0.4, 0.7, 0.5, 0.65, 0.35, 0.5],
+  [0.65, 0.4, 0.8, 0.5, 0.7, 0.35, 0.85, 0.45, 0.6, 0.55, 0.5, 0.4],
+  [0.45, 0.7, 0.55, 0.6, 0.85, 0.4, 0.5, 0.8, 0.65, 0.3, 0.75, 0.55],
 ];
+
 const BAR_FILLS = [
   "var(--color-accent-bar-mute)",
   "var(--color-accent)",
@@ -21,11 +29,16 @@ const BAR_FILLS = [
   "var(--color-accent)",
 ];
 
+const PAGE_LABELS = ["This week", "Last week", "Two weeks ago"];
+
 export function ActivityBarMini({ amount, currency = "USD" }: Props) {
+  const [page, setPage] = useState(1);
+  const heights = BAR_HEIGHTS_BY_PAGE[page];
+
   const barWidth = 14;
   const gap = 10;
   const chartH = 70;
-  const totalW = BAR_HEIGHTS.length * (barWidth + gap) - gap;
+  const totalW = heights.length * (barWidth + gap) - gap;
 
   return (
     <div
@@ -55,13 +68,14 @@ export function ActivityBarMini({ amount, currency = "USD" }: Props) {
         </span>
       </p>
       <svg
+        key={page}
         viewBox={`0 0 ${totalW} ${chartH}`}
         preserveAspectRatio="none"
         width="100%"
         height={chartH}
         aria-hidden
       >
-        {BAR_HEIGHTS.map((h, i) => {
+        {heights.map((h, i) => {
           const height = h * chartH;
           const x = i * (barWidth + gap);
           const y = chartH - height;
@@ -85,12 +99,24 @@ export function ActivityBarMini({ amount, currency = "USD" }: Props) {
       </svg>
       <div className="flex items-center justify-center gap-1.5">
         {[0, 1, 2].map((d) => (
-          <span
+          <button
             key={d}
-            className="w-1.5 h-1.5 rounded-full"
+            type="button"
+            aria-label={`Show ${PAGE_LABELS[d]}`}
+            onClick={() => {
+              setPage(d);
+              toast(PAGE_LABELS[d]);
+            }}
+            className="rounded-full"
             style={{
+              width: 6,
+              height: 6,
+              padding: 0,
               backgroundColor:
-                d === 1 ? "var(--color-accent)" : "var(--color-border-strong)",
+                d === page
+                  ? "var(--color-accent)"
+                  : "var(--color-border-strong)",
+              border: "none",
             }}
           />
         ))}

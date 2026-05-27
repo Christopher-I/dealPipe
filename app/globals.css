@@ -94,6 +94,31 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ─── Interactive defaults ─────────────────────────────────── */
+/* Tailwind v4's preflight no longer sets cursor:pointer on buttons. */
+button:not(:disabled),
+[role="button"]:not(:disabled),
+summary {
+  cursor: pointer;
+  transition: filter 150ms ease-out, background-color 200ms ease-out,
+    transform 200ms ease-out;
+}
+
+button:not(:disabled):hover,
+[role="button"]:not(:disabled):hover {
+  filter: brightness(0.96);
+}
+
+button:not(:disabled):active,
+[role="button"]:not(:disabled):active {
+  filter: brightness(0.92);
+  transform: scale(0.985);
+}
+
+a {
+  transition: color 150ms ease-out, opacity 150ms ease-out;
+}
+
 .tabular {
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";

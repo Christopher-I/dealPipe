@@ -1,10 +1,14 @@
+"use client";
+
 import {
-  Briefcase,
   BarChart3,
+  Briefcase,
+  MoreVertical,
   Users,
   type LucideIcon,
-  MoreVertical,
 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "@/lib/toast";
 
 type Item = {
   label: string;
@@ -18,6 +22,8 @@ const ITEMS: Item[] = [
 ];
 
 export function WorkspacesList() {
+  const [selected, setSelected] = useState<string>("Underwriting");
+
   return (
     <div
       className="rounded-[var(--radius-sub-card)] border p-5 flex flex-col gap-4"
@@ -39,6 +45,7 @@ export function WorkspacesList() {
         <button
           type="button"
           aria-label="More"
+          onClick={() => toast("Demo: opens workspace settings")}
           style={{ color: "var(--color-text-muted)" }}
         >
           <MoreVertical size={16} />
@@ -46,23 +53,30 @@ export function WorkspacesList() {
       </div>
 
       <div className="flex flex-col gap-1">
-        {ITEMS.map((it, i) => {
+        {ITEMS.map((it) => {
           const Icon = it.icon;
-          const isFirst = i === 0;
+          const active = selected === it.label;
           return (
-            <div
+            <button
               key={it.label}
-              className="flex items-center gap-3 rounded-full px-3 py-2"
+              type="button"
+              onClick={() => {
+                setSelected(it.label);
+                toast(it.label);
+              }}
+              className="flex items-center gap-3 rounded-full px-3 py-2 text-left"
               style={{
-                backgroundColor: isFirst
+                backgroundColor: active
                   ? "var(--color-surface-warm)"
                   : "transparent",
               }}
             >
               <span
-                className="w-8 h-8 rounded-full flex items-center justify-center"
+                className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
                 style={{
-                  backgroundColor: "var(--color-surface-warm)",
+                  backgroundColor: active
+                    ? "var(--color-surface-peach)"
+                    : "var(--color-surface-warm)",
                   color: "var(--color-accent)",
                 }}
               >
@@ -72,11 +86,12 @@ export function WorkspacesList() {
                 style={{
                   color: "var(--color-text-2)",
                   fontSize: "var(--text-body)",
+                  fontWeight: active ? 500 : 400,
                 }}
               >
                 {it.label}
               </span>
-            </div>
+            </button>
           );
         })}
       </div>

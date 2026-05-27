@@ -1,4 +1,7 @@
+"use client";
+
 import { CornerUpRight, Plus } from "lucide-react";
+import { toast } from "@/lib/toast";
 
 export function VerticalActionRail() {
   return (
@@ -12,7 +15,8 @@ export function VerticalActionRail() {
       <button
         type="button"
         aria-label="Add"
-        className="w-6 h-6 flex items-center justify-center transition-opacity duration-200"
+        onClick={() => toast("Demo: opens new-deal form")}
+        className="w-6 h-6 flex items-center justify-center"
         style={{ color: "var(--color-text-2)" }}
       >
         <Plus size={20} />
@@ -24,7 +28,8 @@ export function VerticalActionRail() {
       <button
         type="button"
         aria-label="Share"
-        className="w-6 h-6 flex items-center justify-center transition-opacity duration-200"
+        onClick={() => toast("Link copied to clipboard", { tone: "success" })}
+        className="w-6 h-6 flex items-center justify-center"
         style={{ color: "var(--color-text-2)" }}
       >
         <CornerUpRight size={20} />

@@ -1,4 +1,7 @@
-import { ChevronDown } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { Dropdown } from "@/components/ui/Dropdown";
 
 type Ring = {
   label: string;
@@ -6,17 +9,34 @@ type Ring = {
   fillOpacity: number;
 };
 
-const RINGS: Ring[] = [
-  { label: "$14M", diameterPct: 100, fillOpacity: 0.18 },
-  { label: "$9.3M", diameterPct: 75, fillOpacity: 0.35 },
-  { label: "$6.8M", diameterPct: 52, fillOpacity: 0.6 },
-  { label: "$4M", diameterPct: 30, fillOpacity: 1 },
-];
+// Multi-year mock data so the dropdown actually changes the visualisation.
+const YEAR_DATA: Record<string, Ring[]> = {
+  "2026": [
+    { label: "$14M", diameterPct: 100, fillOpacity: 0.18 },
+    { label: "$9.3M", diameterPct: 75, fillOpacity: 0.35 },
+    { label: "$6.8M", diameterPct: 52, fillOpacity: 0.6 },
+    { label: "$4M", diameterPct: 30, fillOpacity: 1 },
+  ],
+  "2025": [
+    { label: "$11M", diameterPct: 100, fillOpacity: 0.18 },
+    { label: "$7.2M", diameterPct: 72, fillOpacity: 0.35 },
+    { label: "$5.1M", diameterPct: 48, fillOpacity: 0.6 },
+    { label: "$2.8M", diameterPct: 26, fillOpacity: 1 },
+  ],
+  "2024": [
+    { label: "$8M", diameterPct: 100, fillOpacity: 0.18 },
+    { label: "$5.4M", diameterPct: 70, fillOpacity: 0.35 },
+    { label: "$3.6M", diameterPct: 44, fillOpacity: 0.6 },
+    { label: "$1.9M", diameterPct: 22, fillOpacity: 1 },
+  ],
+};
 
-// Place non-center labels on the ring's upper-right at this angle from north.
 const LABEL_ANGLE_DEG = 50;
 
 export function AnnualProfitsCard() {
+  const [year, setYear] = useState("2026");
+  const rings = YEAR_DATA[year];
+
   return (
     <div
       className="rounded-[var(--radius-card-lg)] border p-6 flex flex-col gap-4 h-full"
@@ -35,30 +55,22 @@ export function AnnualProfitsCard() {
         >
           Annual profits
         </p>
-        <button
-          type="button"
-          className="inline-flex items-center gap-1.5 h-8 px-3 rounded-full border"
-          style={{
-            backgroundColor: "var(--color-surface-warm)",
-            borderColor: "var(--color-border)",
-            color: "var(--color-text-2)",
-            fontSize: "var(--text-chip)",
-          }}
-        >
-          2026
-          <ChevronDown size={12} />
-        </button>
+        <Dropdown
+          options={["2026", "2025", "2024"]}
+          value={year}
+          onChange={setYear}
+          align="right"
+        />
       </div>
 
-      {/* Ring SVG; labels positioned polar so each lands on its ring edge. */}
       <div className="relative w-full flex-1 aspect-square max-h-[280px] self-center">
         <svg
+          key={year}
           viewBox="0 0 100 100"
           className="absolute inset-0 w-full h-full"
           aria-hidden
         >
-          {RINGS.map((r, i) => {
-            // Outer rings animate first so the eye sees the gradient expanding.
+          {rings.map((r, i) => {
             const delay = i * 120;
             return (
               <circle
@@ -77,7 +89,7 @@ export function AnnualProfitsCard() {
             );
           })}
         </svg>
-        {RINGS.map((r, i) => {
+        {rings.map((r, i) => {
           const isCenter = r.diameterPct < 35;
           const angleRad = (LABEL_ANGLE_DEG * Math.PI) / 180;
           const radiusPct = r.diameterPct / 2 - 6;
@@ -86,7 +98,7 @@ export function AnnualProfitsCard() {
           const delay = i * 120 + 400;
           return (
             <span
-              key={r.label}
+              key={`${year}-${r.label}`}
               className="absolute font-medium tabular -translate-x-1/2 -translate-y-1/2 dp-fade-in"
               style={{
                 left: `${x}%`,

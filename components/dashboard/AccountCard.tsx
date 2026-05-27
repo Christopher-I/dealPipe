@@ -1,4 +1,9 @@
-import { Building2, ChevronDown, Pencil } from "lucide-react";
+"use client";
+
+import { Building2, Pencil } from "lucide-react";
+import Link from "next/link";
+import { Dropdown } from "@/components/ui/Dropdown";
+import { toast } from "@/lib/toast";
 
 export function AccountCard() {
   return (
@@ -30,19 +35,12 @@ export function AccountCard() {
             Treasury
           </span>
         </div>
-        <button
-          type="button"
-          className="inline-flex items-center gap-1.5 h-8 px-3 rounded-full border"
-          style={{
-            backgroundColor: "var(--color-surface-warm)",
-            borderColor: "var(--color-border)",
-            color: "var(--color-text-2)",
-            fontSize: "var(--text-chip)",
-          }}
-        >
-          Wire transfers
-          <ChevronDown size={12} />
-        </button>
+        <Dropdown
+          options={["Wire transfers", "ACH", "Checks", "All movements"]}
+          defaultValue="Wire transfers"
+          onChange={(v) => toast(`Filter: ${v}`)}
+          align="right"
+        />
       </div>
 
       <div>
@@ -70,7 +68,10 @@ export function AccountCard() {
       <div className="flex items-center gap-2">
         <button
           type="button"
-          className="h-10 px-6 rounded-full font-medium transition-[filter] duration-200"
+          onClick={() =>
+            toast("Demo: opens deposit flow", { tone: "success" })
+          }
+          className="h-10 px-6 rounded-full font-medium"
           style={{
             backgroundColor: "var(--color-ink)",
             color: "var(--color-text-on-ink)",
@@ -81,7 +82,8 @@ export function AccountCard() {
         </button>
         <button
           type="button"
-          className="h-10 px-6 rounded-full font-medium border transition-colors duration-200"
+          onClick={() => toast("Demo: opens transfer flow")}
+          className="h-10 px-6 rounded-full font-medium border"
           style={{
             backgroundColor: "var(--color-surface)",
             borderColor: "var(--color-border)",
@@ -127,8 +129,8 @@ export function AccountCard() {
             </span>
           </p>
         </div>
-        <button
-          type="button"
+        <Link
+          href="/app/settings/billing"
           className="inline-flex items-center gap-2.5 pl-1.5 pr-3.5 h-11 rounded-full"
           style={{ backgroundColor: "var(--color-surface-peach)" }}
         >
@@ -149,7 +151,7 @@ export function AccountCard() {
           >
             Manage limits
           </span>
-        </button>
+        </Link>
       </div>
     </div>
   );

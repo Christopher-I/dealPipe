@@ -2,6 +2,7 @@
 
 import { Calendar } from "lucide-react";
 import { ShowMyTasksPill } from "./ShowMyTasksPill";
+import { toast } from "@/lib/toast";
 
 export function DateTaskRow({ date }: { date: Date }) {
   const dayNum = date.getDate();
@@ -10,7 +11,9 @@ export function DateTaskRow({ date }: { date: Date }) {
 
   return (
     <div className="flex items-center gap-5">
-      <div
+      <button
+        type="button"
+        onClick={() => toast(`${weekday}, ${month} ${dayNum}`)}
         className="w-[72px] h-[72px] rounded-full flex items-center justify-center border"
         style={{
           backgroundColor: "var(--color-surface)",
@@ -26,7 +29,7 @@ export function DateTaskRow({ date }: { date: Date }) {
         >
           {dayNum}
         </span>
-      </div>
+      </button>
       <div className="flex flex-col leading-tight">
         <span
           className="font-medium"
@@ -51,7 +54,8 @@ export function DateTaskRow({ date }: { date: Date }) {
       <button
         type="button"
         aria-label="Calendar"
-        className="relative w-12 h-12 rounded-full flex items-center justify-center border transition-colors duration-200"
+        onClick={() => toast("Demo: opens calendar")}
+        className="relative w-12 h-12 rounded-full flex items-center justify-center border"
         style={{
           backgroundColor: "var(--color-surface)",
           borderColor: "var(--color-border)",

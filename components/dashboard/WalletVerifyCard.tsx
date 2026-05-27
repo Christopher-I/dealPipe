@@ -1,4 +1,22 @@
+"use client";
+
+import { Check } from "lucide-react";
+import { useState } from "react";
+import { toast } from "@/lib/toast";
+
 export function WalletVerifyCard() {
+  const [enabled, setEnabled] = useState(false);
+
+  const onClick = () => {
+    if (enabled) {
+      setEnabled(false);
+      toast("2-step verification disabled");
+    } else {
+      setEnabled(true);
+      toast("2-step verification enabled", { tone: "success" });
+    }
+  };
+
   return (
     <div
       className="rounded-[var(--radius-sub-card)] border p-5 flex flex-col gap-3 items-center text-center"
@@ -25,21 +43,28 @@ export function WalletVerifyCard() {
             fontSize: "var(--text-meta)",
           }}
         >
-          Enable 2-step verification
-          <br />
-          to protect your sign-in.
+          {enabled
+            ? "Two-step verification is on."
+            : "Enable 2-step verification\nto protect your sign-in."}
         </p>
       </div>
       <button
         type="button"
-        className="w-full h-11 rounded-full font-medium transition-[filter] duration-200 mt-1"
+        onClick={onClick}
+        className="w-full h-11 rounded-full font-medium mt-1 inline-flex items-center justify-center gap-2"
         style={{
-          backgroundColor: "var(--color-accent)",
-          color: "var(--color-text-on-accent)",
+          backgroundColor: enabled
+            ? "var(--color-surface-warm)"
+            : "var(--color-accent)",
+          color: enabled
+            ? "var(--color-text-2)"
+            : "var(--color-text-on-accent)",
           fontSize: "var(--text-body)",
+          border: enabled ? "1px solid var(--color-border)" : "none",
         }}
       >
-        Enable
+        {enabled && <Check size={16} />}
+        {enabled ? "Enabled" : "Enable"}
       </button>
     </div>
   );

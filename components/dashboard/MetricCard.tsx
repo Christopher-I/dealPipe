@@ -1,7 +1,10 @@
 "use client";
 
-import { ChevronDown, type LucideIcon } from "lucide-react";
+import { type LucideIcon } from "lucide-react";
+import { useState } from "react";
+import { Dropdown } from "@/components/ui/Dropdown";
 import { useCountUp } from "@/lib/hooks/useCountUp";
+import { toast } from "@/lib/toast";
 
 type MetricCardProps = {
   icon: LucideIcon;
@@ -9,12 +12,16 @@ type MetricCardProps = {
   value: number;
   decimals?: number;
   cadence?: string;
+  cadenceOptions?: string[];
   action?: {
     icon: LucideIcon;
     line1: string;
     line2: string;
+    onClickToast?: string;
   };
 };
+
+const DEFAULT_CADENCES = ["Daily", "Weekly", "Monthly", "Quarterly", "Yearly"];
 
 export function MetricCard({
   icon: Icon,
@@ -22,8 +29,10 @@ export function MetricCard({
   value,
   decimals = 2,
   cadence = "Weekly",
+  cadenceOptions = DEFAULT_CADENCES,
   action,
 }: MetricCardProps) {
+  const [activeCadence, setActiveCadence] = useState(cadence);
   const animated = useCountUp(value, 850);
   const fixed = animated.toFixed(decimals);
   const [int, frac] = fixed.split(".");
@@ -47,19 +56,15 @@ export function MetricCard({
         >
           <Icon size={16} />
         </div>
-        <button
-          type="button"
-          className="inline-flex items-center gap-1.5 h-8 px-3 rounded-full border"
-          style={{
-            backgroundColor: "var(--color-surface-warm)",
-            borderColor: "var(--color-border)",
-            color: "var(--color-text-2)",
-            fontSize: "var(--text-chip)",
+        <Dropdown
+          options={cadenceOptions}
+          value={activeCadence}
+          onChange={(v) => {
+            setActiveCadence(v);
+            toast(`Cadence set to ${v.toLowerCase()}`);
           }}
-        >
-          {cadence}
-          <ChevronDown size={12} />
-        </button>
+          align="right"
+        />
       </div>
 
       <div className="flex items-end justify-between gap-3 mt-auto">
@@ -92,6 +97,9 @@ export function MetricCard({
         {action && (
           <button
             type="button"
+            onClick={() =>
+              toast(action.onClickToast ?? `Opens ${action.line2}`)
+            }
             className="inline-flex items-center gap-2.5 pl-1.5 pr-3.5 h-11 rounded-full shrink-0"
             style={{ backgroundColor: "var(--color-surface-peach)" }}
           >

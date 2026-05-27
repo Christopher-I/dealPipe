@@ -1,15 +1,34 @@
-import { Lock } from "lucide-react";
+"use client";
+
+import { Lock, Unlock } from "lucide-react";
+import { useState } from "react";
+import { toast } from "@/lib/toast";
 
 export function SystemLockCard() {
+  const [locked, setLocked] = useState(true);
+  const Icon = locked ? Lock : Unlock;
   return (
-    <div
-      className="rounded-[var(--radius-card)] border p-6 flex flex-col items-center justify-center gap-3"
+    <button
+      type="button"
+      onClick={() => {
+        setLocked((v) => !v);
+        toast(
+          locked ? "Session unlocked" : "Session locked",
+          { tone: locked ? "default" : "success" },
+        );
+      }}
+      className="rounded-[var(--radius-card)] border p-5 flex flex-col items-center justify-center gap-2 h-full w-full"
       style={{
         backgroundColor: "var(--color-surface)",
         borderColor: "var(--color-border)",
       }}
     >
-      <Lock size={28} style={{ color: "var(--color-text)" }} />
+      <Icon
+        size={26}
+        style={{
+          color: locked ? "var(--color-text)" : "var(--color-accent)",
+        }}
+      />
       <span
         className="font-medium"
         style={{
@@ -17,8 +36,8 @@ export function SystemLockCard() {
           fontSize: "var(--text-label)",
         }}
       >
-        System Lock
+        {locked ? "System Lock" : "Unlocked"}
       </span>
-    </div>
+    </button>
   );
 }

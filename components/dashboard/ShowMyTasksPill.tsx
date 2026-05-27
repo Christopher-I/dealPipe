@@ -1,18 +1,20 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function ShowMyTasksPill({
   label = "Show my deals",
-  onClick,
+  href = "/app/deals",
 }: {
   label?: string;
-  onClick?: () => void;
+  href?: string;
 }) {
+  const router = useRouter();
   return (
     <button
       type="button"
-      onClick={onClick}
+      onClick={() => router.push(href)}
       className="group inline-flex items-center gap-3 h-14 pl-7 pr-1.5 rounded-full font-medium transition-[filter,transform] duration-200"
       style={{
         background:

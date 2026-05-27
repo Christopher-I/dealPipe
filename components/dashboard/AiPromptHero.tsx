@@ -1,4 +1,8 @@
+"use client";
+
 import { Mic, Sparkles } from "lucide-react";
+import { useRef, useState } from "react";
+import { toast } from "@/lib/toast";
 
 export function AiPromptHero({
   greeting = "Hey, Need help?",
@@ -9,6 +13,27 @@ export function AiPromptHero({
   emoji?: string;
   placeholder?: string;
 }) {
+  const [listening, setListening] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const onMicClick = () => {
+    if (listening) {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      setListening(false);
+      toast("Voice input cancelled");
+      return;
+    }
+    setListening(true);
+    toast("Listening… (demo)");
+    timerRef.current = setTimeout(() => {
+      setListening(false);
+      toast(
+        '"Show me office deals in Texas closing this quarter"',
+        { tone: "success", duration: 3200 },
+      );
+    }, 2200);
+  };
+
   return (
     <div className="flex items-center justify-end gap-6 flex-1">
       <div className="text-right">
@@ -47,18 +72,28 @@ export function AiPromptHero({
             lineHeight: "var(--text-display--line-height)",
           }}
         >
-          {placeholder}
+          {listening ? "Listening…" : placeholder}
         </p>
       </div>
       <button
         type="button"
         aria-label="Talk to DealPipe AI"
         title="Talk to DealPipe AI"
-        className="relative w-24 h-24 rounded-full flex items-center justify-center border transition-colors duration-200 shrink-0 dp-mic-pulse"
+        onClick={onMicClick}
+        className="relative w-24 h-24 rounded-full flex items-center justify-center border shrink-0"
         style={{
-          backgroundColor: "var(--color-surface)",
-          borderColor: "var(--color-border-strong)",
-          color: "var(--color-text-2)",
+          backgroundColor: listening
+            ? "var(--color-accent)"
+            : "var(--color-surface)",
+          borderColor: listening
+            ? "var(--color-accent)"
+            : "var(--color-border-strong)",
+          color: listening
+            ? "var(--color-text-on-accent)"
+            : "var(--color-text-2)",
+          animation: listening
+            ? "dp-mic-pulse 1.2s ease-in-out infinite"
+            : "dp-mic-pulse 3s ease-in-out infinite",
         }}
       >
         <Mic size={28} />

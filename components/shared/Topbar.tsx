@@ -1,7 +1,10 @@
+"use client";
+
 import { ArrowLeft, Menu, Plus, Search } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "./Logo";
 import { PersonaPill } from "./PersonaPill";
+import { toast } from "@/lib/toast";
 
 export function Topbar() {
   return (
@@ -11,7 +14,7 @@ export function Topbar() {
           href="/"
           title="Back to home"
           aria-label="Back to home"
-          className="w-11 h-11 rounded-full flex items-center justify-center border transition-colors duration-200"
+          className="w-11 h-11 rounded-full flex items-center justify-center border"
           style={{
             backgroundColor: "var(--color-surface)",
             borderColor: "var(--color-border)",
@@ -22,8 +25,9 @@ export function Topbar() {
         </Link>
         <button
           type="button"
-          aria-label="Menu"
-          className="w-11 h-11 rounded-full flex items-center justify-center border transition-colors duration-200"
+          aria-label="Open menu"
+          onClick={() => toast("Demo: opens nav drawer")}
+          className="w-11 h-11 rounded-full flex items-center justify-center border"
           style={{
             backgroundColor: "var(--color-surface)",
             borderColor: "var(--color-border)",
@@ -39,7 +43,8 @@ export function Topbar() {
         <button
           type="button"
           aria-label="New"
-          className="w-11 h-11 rounded-full flex items-center justify-center border transition-colors duration-200"
+          onClick={() => toast("Demo: opens new-deal form")}
+          className="w-11 h-11 rounded-full flex items-center justify-center border"
           style={{
             backgroundColor: "var(--color-surface)",
             borderColor: "var(--color-border)",
